@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <!--原始版本的servlet加mapping映射-->
+    <servlet>
+        <servlet-name>MyFirstServletName</servlet-name>
+        <servlet-class>com.skyline.MyFirstServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MyFirstServletName</servlet-name>
+        <url-pattern>/helloTwo</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>MyFirstServletOne</servlet-name>
+        <servlet-class>com.skyline.MyFirstServletOne</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyFirstServletOne</servlet-name>
+        <url-pattern>/helloOne</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>MySelf</servlet-name>
+        <servlet-class>com.skyline.MySelf</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MySelf</servlet-name>
+        <url-pattern>/mySelf</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>MyHello</servlet-name>
+        <servlet-class>com.skyline.MyHelloWorld</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyHello</servlet-name>
+        <url-pattern>/myHello</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>MyForm</servlet-name>
+        <servlet-class>com.skyline.MyForm</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyForm</servlet-name>
+        <url-pattern>/java_web01_war_exploded/MyForm</url-pattern>
+    </servlet-mapping>
+
+    <!--    MyPostForm-->
+    <servlet>
+        <servlet-name>MyPostForm</servlet-name>
+        <servlet-class>com.skyline.MyPostForm</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyPostForm</servlet-name>
+        <url-pattern>/java_web01_war_exploded/MyPostForm</url-pattern>
+    </servlet-mapping>
+    <!--    MyPostForm-->
+    <!--  Refresh  -->
+    <servlet>
+        <servlet-name>Refresh</servlet-name>
+        <servlet-class>com.skyline.Refresh</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Refresh</servlet-name>
+        <url-pattern>/refresh</url-pattern>
+    </servlet-mapping>
+    <!--  Refresh  -->
+
+<!--    DisplayHeader-->
+    <servlet>
+        <!-- 类名 -->
+        <servlet-name>DisplayHeader</servlet-name>
+        <!-- 所在的包 -->
+        <servlet-class>com.runoob.test.DisplayHeader</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DisplayHeader</servlet-name>
+        <!-- 访问的网址 -->
+        <url-pattern>/java_web01_war_exploded/DisplayHeader</url-pattern>
+    </servlet-mapping>
+<!--    DisplayHeader-->
+
+<!--    DatabaseAccess-->
+    <servlet>
+        <servlet-name>DatabaseAccess</servlet-name>
+        <servlet-class>com.skyline.DatabaseAccess</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DatabaseAccess</servlet-name>
+        <url-pattern>/java_web01_war_exploded/DatabaseAccess</url-pattern>
+    </servlet-mapping>
+    <!--    DatabaseAccess-->
+
+    <!--    DatabaseAccess-->
+    <servlet>
+        <servlet-name>MyDatabase</servlet-name>
+        <servlet-class>com.skyline.MyDatabase</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyDatabase</servlet-name>
+        <url-pattern>/java_web01_war_exploded/MyDatabase</url-pattern>
+    </servlet-mapping>
+    <!--    DatabaseAccess-->
+
+    <welcome-file-list>
+        <welcome-file>/mySelf/hello.html</welcome-file>
+    </welcome-file-list>
+    <!--原始版本的servlet加mapping映射-->
+    <!--    使用servlet映射扫描包路径-->
+    <!--    <servlet>-->
+    <!--        <servlet-name>springmvc</servlet-name>-->
+    <!--        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+    <!--        <load-on-startup>1</load-on-startup>-->
+    <!--    </servlet>-->
+    <!--    <servlet-mapping>-->
+    <!--        <servlet-name>springmvc</servlet-name>-->
+    <!--        <url-pattern>/</url-pattern>-->
+    <!--    </servlet-mapping>-->
+    <!--    使用servlet映射扫描包路径-->
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.jpg</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.png</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.js</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.css</url-pattern>
+    </servlet-mapping>
+
+
+    <!--   Servlet 过滤器 过滤器-->
+    <filter>
+        <filter-name>LogFilter</filter-name>
+        <filter-class>com.runoob.test.LogFilter</filter-class>
+        <init-param>
+            <param-name>Site</param-name>
+            <param-value>菜鸟教程</param-value>
+        </init-param>
+        <init-param>
+            <param-name>name</param-name>
+            <param-value>测试</param-value>
+        </init-param>
+        <init-param>
+            <param-name>url</param-name>
+            <param-value>www.huamei.com</param-value>
+        </init-param>
+
+    </filter>
+
+    <filter-mapping>
+        <filter-name>LogFilter</filter-name>
+        <url-pattern>/skyline/*</url-pattern>
+    </filter-mapping>
+
+    <!--   Servlet 过滤器 过滤器-->
+</web-app>
