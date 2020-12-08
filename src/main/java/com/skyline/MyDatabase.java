@@ -67,8 +67,6 @@ public class MyDatabase extends HttpServlet {
 //            JsonObject introduce = object.getAsJsonObject("object");
             Connection conn = null;
             Statement stmt = null;
-
-
             try {
                 Class.forName(JDBC_DRIVER);
                 conn = DriverManager.getConnection(DB_URL, USER, PASS);

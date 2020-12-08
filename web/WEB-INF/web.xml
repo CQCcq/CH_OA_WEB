@@ -67,7 +67,7 @@
     </servlet-mapping>
     <!--  Refresh  -->
 
-<!--    DisplayHeader-->
+    <!--    DisplayHeader-->
     <servlet>
         <!-- 类名 -->
         <servlet-name>DisplayHeader</servlet-name>
@@ -79,9 +79,9 @@
         <!-- 访问的网址 -->
         <url-pattern>/java_web01_war_exploded/DisplayHeader</url-pattern>
     </servlet-mapping>
-<!--    DisplayHeader-->
+    <!--    DisplayHeader-->
 
-<!--    DatabaseAccess-->
+    <!--    DatabaseAccess-->
     <servlet>
         <servlet-name>DatabaseAccess</servlet-name>
         <servlet-class>com.skyline.DatabaseAccess</servlet-class>
@@ -103,10 +103,25 @@
     </servlet-mapping>
     <!--    DatabaseAccess-->
 
-    <welcome-file-list>
-        <welcome-file>/mySelf/hello.html</welcome-file>
-    </welcome-file-list>
+    <!--    DatabaseAccess-->
+    <servlet>
+        <servlet-name>getuser</servlet-name>
+        <servlet-class>com.user.GetUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getuser</servlet-name>
+        <url-pattern>/java_web01_war_exploded/getuser</url-pattern>
+    </servlet-mapping>
+    <!--    DatabaseAccess-->
+
+
+    <!--默认打开界面-->
+    <!--    <welcome-file-list>-->
+    <!--        <welcome-file>/mySelf/hello.html</welcome-file>-->
+    <!--    </welcome-file-list>-->
+    <!--默认打开界面-->
     <!--原始版本的servlet加mapping映射-->
+
     <!--    使用servlet映射扫描包路径-->
     <!--    <servlet>-->
     <!--        <servlet-name>springmvc</servlet-name>-->
@@ -157,7 +172,6 @@
             <param-name>url</param-name>
             <param-value>www.huamei.com</param-value>
         </init-param>
-
     </filter>
 
     <filter-mapping>
