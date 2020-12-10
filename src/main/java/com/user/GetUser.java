@@ -6,6 +6,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.page.Page;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,18 +37,27 @@ public class GetUser extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=GBK");//解决中文乱码
         PrintWriter out = response.getWriter();
+        Page page = new Page();
         Connection conn = null;
         Statement stmt = null;
+        try {
+            int pageCount = Integer.valueOf(request.getParameter("pageCount")).intValue();
+            int pageSize = Integer.valueOf(request.getParameter("pageSize")).intValue();
+            page.setPageNumber(pageCount);
+            page.setPageSize(pageSize);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
         try {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+            String sql_search = "SELECT * FROM users limit " + ( page.getPageNumber() - 1) * page.getPageSize() + "," + page.getPageSize() * page.getPageNumber();
+            ResultSet rs = stmt.executeQuery(sql_search);
 
-            System.out.println("res=========>" + rs);
             // 展开结果集数据库
             UserInfo userInfo = new UserInfo();
-            List list = new ArrayList<Object>();
+            List list = new ArrayList<UserInfo>();
             while (rs.next()) {
                 // 通过字段检索
                 // 输出数据
@@ -69,14 +79,14 @@ public class GetUser extends HttpServlet {
                 map.put("address", userInfo.getAddress());
                 map.put("startTime", userInfo.getStartTime().toLocalDateTime());
                 map.put("describe", userInfo.getDescribe());
-                map.put("status",userInfo.getStatus());
+                map.put("status", userInfo.getStatus());
                 list.add(map);
             }
             Object[] obj = new Object[list.size()];
-            Map<String,Object> map1 = new HashMap<>();
-            map1.put("code",20000);
-            map1.put("status","success");
-            map1.put("data",list);
+            Map<String, Object> map1 = new HashMap<>();
+            map1.put("code", 20000);
+            map1.put("status", "success");
+            map1.put("data", list);
             String resData = JSON.toJSONString(map1, SerializerFeature.WriteMapNullValue);
             out.println(resData.toString());
             out.flush();
