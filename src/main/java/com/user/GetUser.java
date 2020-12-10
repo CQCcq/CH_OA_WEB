@@ -1,11 +1,7 @@
 package com.user;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.page.Page;
 
 import javax.servlet.ServletException;
@@ -41,8 +37,9 @@ public class GetUser extends HttpServlet {
         Connection conn = null;
         Statement stmt = null;
         try {
-            int pageCount = Integer.valueOf(request.getParameter("pageCount")).intValue();
+            int pageCount = Integer.valueOf(request.getParameter("pageCurrent")).intValue();
             int pageSize = Integer.valueOf(request.getParameter("pageSize")).intValue();
+            System.out.println("=====================================================" + pageCount);
             page.setPageNumber(pageCount);
             page.setPageSize(pageSize);
         } catch (NumberFormatException e) {
@@ -52,7 +49,15 @@ public class GetUser extends HttpServlet {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
-            String sql_search = "SELECT * FROM users limit " + ( page.getPageNumber() - 1) * page.getPageSize() + "," + page.getPageSize() * page.getPageNumber();
+            String sql_Count = "SELECT count(id) countNum FROM users";
+            ResultSet count = stmt.executeQuery(sql_Count);
+            while (count.next()){
+                int total = count.getInt(1);
+                page.setTotalCount(total);
+            }
+//            int nums=count.getInt(0);
+            System.out.println("总数==================================" + count);
+            String sql_search = "SELECT * FROM users limit " + (page.getPageNumber() - 1) * page.getPageSize() + "," + page.getPageSize();
             ResultSet rs = stmt.executeQuery(sql_search);
 
             // 展开结果集数据库
@@ -86,6 +91,7 @@ public class GetUser extends HttpServlet {
             Map<String, Object> map1 = new HashMap<>();
             map1.put("code", 20000);
             map1.put("status", "success");
+            map1.put("total", page.getTotalCount());
             map1.put("data", list);
             String resData = JSON.toJSONString(map1, SerializerFeature.WriteMapNullValue);
             out.println(resData.toString());
