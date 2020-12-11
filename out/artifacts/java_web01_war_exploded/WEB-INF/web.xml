@@ -113,8 +113,17 @@
         <url-pattern>/java_web01_war_exploded/getuser</url-pattern>
     </servlet-mapping>
     <!--    DatabaseAccess-->
+    <!--    getUser查询的过滤-->
+    <filter>
+        <filter-name>getUserFilter</filter-name>
+        <filter-class>com.filter.GetUserFilter</filter-class>
 
-
+    </filter>
+    <filter-mapping>
+        <filter-name>getUserFilter</filter-name>
+        <url-pattern>/java_web01_war_exploded/getuser</url-pattern>
+    </filter-mapping>
+    <!--    getUser查询的过滤-->
     <!--默认打开界面-->
     <!--    <welcome-file-list>-->
     <!--        <welcome-file>/mySelf/hello.html</welcome-file>-->

@@ -39,7 +39,6 @@ public class GetUser extends HttpServlet {
         Connection conn = null;
         Statement stmt = null;
         String Mobile_user = ""; //处理传参为空不能进行模糊查询
-        String userNameOne = ""; //处理传参为空不能进行模糊查询
         try {
             int pageSize = Integer.parseInt(request.getParameter("pageSize"));
             String userName = request.getParameter("userName");
@@ -51,7 +50,7 @@ public class GetUser extends HttpServlet {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-
+        String userNameOne = ""; //处理传参为空不能进行模糊查询
         if (userInfo.getName().equals("") || StringUtils.isNullOrEmpty(userInfo.getName())) {
             userNameOne = "";
         } else {
