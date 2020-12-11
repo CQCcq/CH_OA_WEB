@@ -2,6 +2,7 @@ package com.user;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.mysql.cj.util.StringUtils;
 import com.page.Page;
 
 import javax.servlet.ServletException;
@@ -34,34 +35,44 @@ public class GetUser extends HttpServlet {
         response.setContentType("text/html;charset=GBK");//解决中文乱码
         PrintWriter out = response.getWriter();
         Page page = new Page();
+        UserInfo userInfo = new UserInfo();
         Connection conn = null;
         Statement stmt = null;
+        String Mobile_user = ""; //处理传参为空不能进行模糊查询
+        String userNameOne = ""; //处理传参为空不能进行模糊查询
         try {
-            int pageCount = Integer.valueOf(request.getParameter("pageCurrent")).intValue();
-            int pageSize = Integer.valueOf(request.getParameter("pageSize")).intValue();
-            System.out.println("=====================================================" + pageCount);
+            int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+            String userName = request.getParameter("userName");
+            Mobile_user = String.valueOf(request.getParameter("userMobile"));
+            int pageCount = Integer.parseInt(request.getParameter("pageCurrent"));
             page.setPageNumber(pageCount);
+            userInfo.setName(userName);
             page.setPageSize(pageSize);
         } catch (NumberFormatException e) {
             e.printStackTrace();
+        }
+
+        if (userInfo.getName().equals("") || StringUtils.isNullOrEmpty(userInfo.getName())) {
+            userNameOne = "";
+        } else {
+            userNameOne = userInfo.getName();
         }
         try {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
-            String sql_Count = "SELECT count(id) countNum FROM users";
+            String sql_Count = "SELECT count(id) countNum FROM users where user_name LIKE '" + userNameOne + "%' AND user_mobile LIKE '" + Mobile_user + "%'";
             ResultSet count = stmt.executeQuery(sql_Count);
-            while (count.next()){
+            while (count.next()) {
                 int total = count.getInt(1);
                 page.setTotalCount(total);
             }
 //            int nums=count.getInt(0);
-            System.out.println("总数==================================" + count);
             String sql_search = "SELECT * FROM users limit " + (page.getPageNumber() - 1) * page.getPageSize() + "," + page.getPageSize();
-            ResultSet rs = stmt.executeQuery(sql_search);
+            String search_word = "SELECT * FROM users where user_name LIKE '" + userNameOne + "%' AND user_mobile LIKE '" + Mobile_user + "%' limit " + (page.getPageNumber() - 1) * page.getPageSize() + "," + page.getPageSize();
+            ResultSet rs = stmt.executeQuery(search_word);
 
             // 展开结果集数据库
-            UserInfo userInfo = new UserInfo();
             List list = new ArrayList<UserInfo>();
             while (rs.next()) {
                 // 通过字段检索
@@ -98,7 +109,6 @@ public class GetUser extends HttpServlet {
             out.flush();
             out.close();
             // 完成后关闭
-            System.out.println("User=========================" + resData);
 //            rs.close();
             stmt.close();
             conn.close();
