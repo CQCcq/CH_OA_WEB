@@ -21,21 +21,7 @@ public class LogFilter implements Filter {
         System.out.println("网站网址: " + siteUrl);
     }
     public void  doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws java.io.IOException, ServletException {
-
-//        // 输出站点名称
-//        String name = request.getParameter("name");
-//        // 过滤器核心代码逻辑
-//        System.out.println("过滤器获取请求参数:"+name);
-//        System.out.println("站点网址：http://www.runoob.com");
-//
-//        System.out.println("request===========================>" + request);
-//
-//        // 把请求传回过滤链
-//        chain.doFilter(request,response);
-        //获取请求信息(测试时可以通过get方式在URL中添加name)
-        //http://localhost:8080/servlet_demo/helloword?name=123
         String name = request.getParameter("name");
-
         // 过滤器核心代码逻辑
         System.out.println("过滤器获取请求参数:"+name);
         System.out.println("第二个过滤器执行--网站名称：www.runoob.com");

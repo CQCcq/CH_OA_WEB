@@ -14,7 +14,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +62,8 @@ public class GetUser extends HttpServlet {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
-            String sql_Count = "SELECT count(id) countNum FROM users where user_name LIKE '" + userNameOne + "%' AND user_mobile LIKE '" + Mobile_user + "%'";
+            String sql_Count = "SELECT count(id) countNum FROM users where userName LIKE '" + userNameOne + "%' AND userMobile LIKE '" + Mobile_user + "%'";
+            System.out.println("数据库查询" + sql_Count);
             ResultSet count = stmt.executeQuery(sql_Count);
             while (count.next()) {
                 int total = count.getInt(1);
@@ -68,7 +71,7 @@ public class GetUser extends HttpServlet {
             }
 //            int nums=count.getInt(0);
             String sql_search = "SELECT * FROM users limit " + (page.getPageNumber() - 1) * page.getPageSize() + "," + page.getPageSize();
-            String search_word = "SELECT * FROM users where user_name LIKE '" + userNameOne + "%' AND user_mobile LIKE '" + Mobile_user + "%' limit " + (page.getPageNumber() - 1) * page.getPageSize() + "," + page.getPageSize();
+            String search_word = "SELECT * FROM users where userName LIKE '" + userNameOne + "%' AND userMobile LIKE '" + Mobile_user + "%' limit " + (page.getPageNumber() - 1) * page.getPageSize() + "," + page.getPageSize();
             ResultSet rs = stmt.executeQuery(search_word);
 
             // 展开结果集数据库
@@ -78,21 +81,26 @@ public class GetUser extends HttpServlet {
                 // 输出数据
                 HashMap<Object, Object> map = new HashMap<Object, Object>();
                 userInfo.setID(rs.getInt("id"));
-                userInfo.setName(rs.getString("user_name"));
-                userInfo.setGender(rs.getInt("user_gender"));
-                userInfo.setMobile(rs.getInt("user_mobile"));
-                userInfo.setEmail(rs.getString("user_email"));
-                userInfo.setAddress(rs.getString("user_address"));
-                userInfo.setStartTime(rs.getTimestamp("user_start_time"));
-                userInfo.setDescribe(rs.getString("user_describe"));
-                userInfo.setStatus(rs.getInt("user_status"));
+                userInfo.setName(rs.getString("userName"));
+                userInfo.setGender(rs.getInt("userGender"));
+                userInfo.setMobile(rs.getInt("userMobile"));
+                userInfo.setEmail(rs.getString("userEmail"));
+                userInfo.setAddress(rs.getString("userAddress"));
+                userInfo.setStartTime(rs.getTimestamp("userStartTime"));
+                userInfo.setDescribe(rs.getString("userDescribe"));
+                userInfo.setStatus(rs.getInt("userStatus"));
+                userInfo.setUserId(rs.getInt("userId"));
                 map.put("id", userInfo.getID());
                 map.put("name", userInfo.getName());
+                map.put("userId", userInfo.getUserId());
                 map.put("gender", userInfo.getGender());
                 map.put("mobile", userInfo.getMobile());
                 map.put("email", userInfo.getEmail());
                 map.put("address", userInfo.getAddress());
-                map.put("startTime", userInfo.getStartTime().toLocalDateTime());
+                SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+                Date t = ft.parse(userInfo.getStartTime().toString());
+                String Date = ft.format(t);
+                map.put("startTime", Date);
                 map.put("describe", userInfo.getDescribe());
                 map.put("status", userInfo.getStatus());
                 list.add(map);

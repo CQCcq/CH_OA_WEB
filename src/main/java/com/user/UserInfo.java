@@ -15,6 +15,16 @@ public class UserInfo {
     private Timestamp StartTime = new Timestamp(new Date().getTime());
     private String Describe;
     private  Integer Status;
+    private Integer UserId;
+
+    public Integer getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(Integer userId) {
+        UserId = userId;
+    }
+
 
     public Integer getID() {
         return ID;
@@ -100,6 +110,7 @@ public class UserInfo {
                 ", StartTime=" + StartTime +
                 ", Describe='" + Describe + '\'' +
                 ", Status=" + Status +
+                ", UserId=" + UserId +
                 '}';
     }
 }

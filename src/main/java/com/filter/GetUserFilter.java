@@ -21,8 +21,12 @@ public class GetUserFilter implements Filter {
 
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException{
-        System.out.println("请求拦截==================================》" + request);
-        System.out.println("拦截请求================================》"+ request.getParameter("userName"));
+        //解决以Post方式提交的中文乱码问题
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+
+        chain.doFilter(request, response);
         this.destroy();
     };//拦截请求
 //    这个方法完成实际的过滤操作。当客户请求访问与过滤器关联的URL的时候，Servlet过滤器将先执行doFilter方法。FilterChain参数用于访问后续过滤器。
